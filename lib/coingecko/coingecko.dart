@@ -1,4 +1,4 @@
-class Coin {
+class Coingecko {
   final String id;
   final String symbol;
   final String name;
@@ -6,7 +6,7 @@ class Coin {
   final String currentPrice;
   final String lastUpdated;
 
-  Coin(this.id, this.symbol, this.name, this.image, this.currentPrice, this.lastUpdated);
+  Coingecko(this.id, this.symbol, this.name, this.image, this.currentPrice, this.lastUpdated);
 
   String formatCurrenPrice() {
     if (this.currentPrice.length > 6) {
@@ -22,8 +22,8 @@ class Coin {
     return this.name;
   }
 
-  factory Coin.fromJson(dynamic json) {
-    return Coin(
+  factory Coingecko.fromJson(dynamic json) {
+    return Coingecko(
       json['id'],
       json['symbol'],
       json['name'],

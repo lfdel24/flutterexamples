@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutterexamples/coingecko/crypto_page.dart';
+import 'package:flutterexamples/menu_page.dart';
 
 void main() {
   runApp(MyApp());
@@ -14,7 +14,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.green,
       ),
-      home: CryptoPage(),
+      home: MenuPage(),
     );
   }
 }
