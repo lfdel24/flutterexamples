@@ -13,6 +13,10 @@ class CoingeckoBLoC extends ChangeNotifier {
     this.load();
   }
 
+  String totalItems() {
+    return '${this._coins.length} / ${this.coinsWhitFilter.length} items';
+  }
+
   void onSearch(String value) {
     this._search = value;
     _apliccateFilter();

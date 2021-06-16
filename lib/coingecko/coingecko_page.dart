@@ -11,20 +11,7 @@ class CryptoPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Consumer<CoingeckoBLoC>(
-            builder: (_, bloc, ___) => Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text('Coingecko US\$'),
-                    Row(
-                      children: [
-                        Expanded(child: Container()),
-                        Text('${bloc.coinsWhitFilter.length} items', style: TextStyle(fontSize: 12)),
-                        SizedBox(width: 8),
-                      ],
-                    ),
-                  ],
-                )),
+        title: Text('Coingecko US\$'),
       ),
       body: SafeArea(
         child: Consumer<CoingeckoBLoC>(builder: (_, bloc, ___) {
@@ -93,12 +80,8 @@ class _CustomTextField extends StatelessWidget {
           Expanded(
             child: TextField(
               autofocus: true,
-              decoration: InputDecoration(hintText: 'Search'),
-              onChanged: (value) {
-                debouncer.run(() {
-                  bloc.onSearch(value);
-                });
-              },
+              decoration: InputDecoration(hintText: 'Search', helperText: bloc.totalItems()),
+              onChanged: (value) => debouncer.run(() => bloc.onSearch(value)),
             ),
           ),
         ],
