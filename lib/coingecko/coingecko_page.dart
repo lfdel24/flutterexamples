@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutterexamples/coingecko/coingecko_bloc.dart';
 import 'package:flutterexamples/coingecko/coingecko_widgets.dart';
+import 'package:flutterexamples/coingecko/debouncer.dart';
 import 'package:provider/provider.dart';
 
 class CryptoPage extends StatelessWidget {
@@ -18,7 +19,7 @@ class CryptoPage extends StatelessWidget {
                     Row(
                       children: [
                         Expanded(child: Container()),
-                        Text('${bloc.coins.length} items', style: TextStyle(fontSize: 12)),
+                        Text('${bloc.coinsWhitFilter.length} items', style: TextStyle(fontSize: 12)),
                         SizedBox(width: 8),
                       ],
                     ),
@@ -27,11 +28,7 @@ class CryptoPage extends StatelessWidget {
       ),
       body: SafeArea(
         child: Consumer<CoingeckoBLoC>(builder: (_, bloc, ___) {
-          return bloc.isLoading
-              ? CustomCPI()
-              : bloc.coins.length == 0
-                  ? CustomNoItems()
-                  : _ListViewBuilder(bloc: bloc);
+          return bloc.isLoading ? CustomCPI() : _ListViewBuilder(bloc: bloc);
         }),
       ),
     );
@@ -50,11 +47,10 @@ class _ListViewBuilder extends StatelessWidget {
         children: [
           _CustomTextField(bloc: bloc),
           ListView.builder(
-            shrinkWrap: true,
-            itemCount: bloc.coins.length,
-            itemBuilder: (_, index) {
-              final coin = bloc.coins[index];
-              if (bloc.contains(coin)) {
+              shrinkWrap: true,
+              itemCount: bloc.coinsWhitFilter.length,
+              itemBuilder: (_, index) {
+                final coin = bloc.coinsWhitFilter[index];
                 return ListTile(
                   leading: Text('${index + 1}'),
                   title: Row(
@@ -72,10 +68,7 @@ class _ListViewBuilder extends StatelessWidget {
                     style: TextStyle(fontWeight: FontWeight.bold),
                   ),
                 );
-              }
-              return Container();
-            },
-          ),
+              }),
         ],
       ),
     );
@@ -89,6 +82,7 @@ class _CustomTextField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final debouncer = Debouncer(250);
     return Container(
       margin: EdgeInsets.all(8),
       child: Row(
@@ -101,8 +95,9 @@ class _CustomTextField extends StatelessWidget {
               autofocus: true,
               decoration: InputDecoration(hintText: 'Search'),
               onChanged: (value) {
-                bloc.search = value;
-                bloc.notifyListeners();
+                debouncer.run(() {
+                  bloc.onSearch(value);
+                });
               },
             ),
           ),

@@ -5,29 +5,34 @@ import 'package:flutterexamples/coingecko/coingecko_service.dart';
 class CoingeckoBLoC extends ChangeNotifier {
   final _service = CoingeckoService();
   bool isLoading = false;
-  String search = "";
-  List<Coingecko> coins = [];
+  String _search = "";
+  List<Coingecko> _coins = [];
+  List<Coingecko> coinsWhitFilter = [];
 
   CoingeckoBLoC() {
     this.load();
   }
 
-  bool contains(Coingecko coin) {
-    print(search);
-    if (search.isEmpty) {
-      return false;
-    }
-    if (search.contains(coin.name)) {
-      return true;
-    }
-    return false;
+  void onSearch(String value) {
+    this._search = value;
+    _apliccateFilter();
+    notifyListeners();
+  }
+
+  void _apliccateFilter() {
+    this.coinsWhitFilter = this._coins.where((coin) => _filter(coin)).toList();
+  }
+
+  bool _filter(Coingecko coin) {
+    return coin.name.toLowerCase().contains(this._search.toLowerCase());
   }
 
   Future<void> load() async {
     this.isLoading = true;
     notifyListeners();
-    this.coins = await this._service.load();
-    print(this.coins.length);
+    this._coins = await this._service.load();
+    this.coinsWhitFilter = this._coins;
+    print(this._coins.length);
     this.isLoading = false;
     notifyListeners();
   }
