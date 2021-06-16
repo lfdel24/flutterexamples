@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutterexamples/coingecko/coingecko_bloc.dart';
+import 'package:flutterexamples/coingecko/coingecko_widgets.dart';
 import 'package:provider/provider.dart';
 
 class CryptoPage extends StatelessWidget {
@@ -13,45 +14,99 @@ class CryptoPage extends StatelessWidget {
             builder: (_, bloc, ___) => Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text('Coingecko US '),
-                    Text('${bloc.coins.length} items', style: TextStyle(fontSize: 12)),
+                    Text('Coingecko US\$'),
+                    Row(
+                      children: [
+                        Expanded(child: Container()),
+                        Text('${bloc.coins.length} items', style: TextStyle(fontSize: 12)),
+                        SizedBox(width: 8),
+                      ],
+                    ),
                   ],
                 )),
       ),
       body: SafeArea(
         child: Consumer<CoingeckoBLoC>(builder: (_, bloc, ___) {
-          if (bloc.isLoading) {
-            return Center(
-              child: CircularProgressIndicator(),
-            );
-          } else {
-            return bloc.coins.length == 0
-                ? Text('No items')
-                : ListView.builder(
-                    itemCount: bloc.coins.length,
-                    itemBuilder: (_, index) {
-                      final coin = bloc.coins[index];
-                      return ListTile(
-                        leading: Text('${index + 1}'),
-                        title: Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: [
-                            CircleAvatar(
-                              child: Image.network(coin.image),
-                            ),
-                            SizedBox(width: 10),
-                            Text(coin.formatName()),
-                          ],
-                        ),
-                        trailing: Text(
-                          coin.formatCurrenPrice(),
-                          style: TextStyle(fontWeight: FontWeight.bold),
-                        ),
-                      );
-                    },
-                  );
-          }
+          return bloc.isLoading
+              ? CustomCPI()
+              : bloc.coins.length == 0
+                  ? CustomNoItems()
+                  : _ListViewBuilder(bloc: bloc);
         }),
+      ),
+    );
+  }
+}
+
+class _ListViewBuilder extends StatelessWidget {
+  final CoingeckoBLoC bloc;
+
+  const _ListViewBuilder({Key? key, required this.bloc}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return SingleChildScrollView(
+      child: Column(
+        children: [
+          _CustomTextField(bloc: bloc),
+          ListView.builder(
+            shrinkWrap: true,
+            itemCount: bloc.coins.length,
+            itemBuilder: (_, index) {
+              final coin = bloc.coins[index];
+              if (bloc.contains(coin)) {
+                return ListTile(
+                  leading: Text('${index + 1}'),
+                  title: Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      CircleAvatar(
+                        child: Image.network(coin.image),
+                      ),
+                      SizedBox(width: 10),
+                      Text(coin.formatName()),
+                    ],
+                  ),
+                  trailing: Text(
+                    coin.formatCurrenPrice(),
+                    style: TextStyle(fontWeight: FontWeight.bold),
+                  ),
+                );
+              }
+              return Container();
+            },
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _CustomTextField extends StatelessWidget {
+  const _CustomTextField({Key? key, required this.bloc}) : super(key: key);
+
+  final CoingeckoBLoC bloc;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      margin: EdgeInsets.all(8),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: [
+          Icon(Icons.search),
+          SizedBox(width: 8),
+          Expanded(
+            child: TextField(
+              autofocus: true,
+              decoration: InputDecoration(hintText: 'Search'),
+              onChanged: (value) {
+                bloc.search = value;
+                bloc.notifyListeners();
+              },
+            ),
+          ),
+        ],
       ),
     );
   }
