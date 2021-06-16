@@ -44,14 +44,17 @@ class _ListViewBuilder extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
                       CircleAvatar(
-                        child: Image.network(coin.image),
+                        child: FadeInImage.assetNetwork(
+                          placeholder: 'assets/img/noimage.png',
+                          image: coin.image,
+                        ),
                       ),
                       SizedBox(width: 10),
                       Text(coin.formatName()),
                     ],
                   ),
                   trailing: Text(
-                    coin.formatCurrenPrice(),
+                    '\$ ${coin.formatCurrenPrice()}',
                     style: TextStyle(fontWeight: FontWeight.bold),
                   ),
                 );

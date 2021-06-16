@@ -13,6 +13,7 @@ class CoingeckoService {
     if (resp.statusCode == 200) {
       var json = jsonDecode(resp.body) as List;
       var result = json.map((e) => Coingecko.fromJson(e)).toList();
+
       return result;
     }
     return [];
