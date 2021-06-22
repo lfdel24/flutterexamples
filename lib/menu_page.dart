@@ -22,7 +22,7 @@ class MenuPage extends StatelessWidget {
                   context,
                   ChangeNotifierProvider<CoingeckoBLoC>(
                     create: (_) => CoingeckoBLoC(),
-                    child: CryptoPage(),
+                    child: CoingeckoPage(),
                   )),
             ),
           ],

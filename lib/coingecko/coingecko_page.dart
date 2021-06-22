@@ -4,8 +4,8 @@ import 'package:flutterexamples/coingecko/coingecko_widgets.dart';
 import 'package:flutterexamples/coingecko/debouncer.dart';
 import 'package:provider/provider.dart';
 
-class CryptoPage extends StatelessWidget {
-  const CryptoPage({Key? key}) : super(key: key);
+class CoingeckoPage extends StatelessWidget {
+  const CoingeckoPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
