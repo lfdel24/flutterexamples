@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutterexamples/animations/animations.dart';
 import 'package:flutterexamples/coingecko/coingecko_bloc.dart';
 import 'package:flutterexamples/coingecko/coingecko_page.dart';
+import 'package:flutterexamples/lista_tareas/lista_tareas_page.dart';
 import 'package:provider/provider.dart';
 
 class MenuPage extends StatelessWidget {
@@ -25,6 +27,8 @@ class MenuPage extends StatelessWidget {
                     child: CoingeckoPage(),
                   )),
             ),
+            _CustomButton(text: 'Animations', onPressed: () => _openPage(context, AnimationsPage())),
+            _CustomButton(text: 'Lista de tareas', onPressed: () => _openPage(context, ListaTareasPage())),
           ],
         ),
       )),
