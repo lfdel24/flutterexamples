@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutterexamples/admin_pro/material_admin_pro_page.dart';
 import 'package:flutterexamples/menu_page.dart';
 
 void main() {
@@ -12,9 +13,10 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Flutter examples',
       theme: ThemeData(
-        primarySwatch: Colors.green,
+        primarySwatch: Colors.blue,
       ),
-      home: MenuPage(),
+      // home: MenuPage(),
+      home: AdminProPage(),
     );
   }
 }

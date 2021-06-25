@@ -1,5 +1,4 @@
 import 'package:flutter/foundation.dart';
-import 'package:flutterexamples/custom_value_notifier.dart';
 import 'package:flutterexamples/lista_tareas/lista_tareas.dart';
 
 class TareasController {

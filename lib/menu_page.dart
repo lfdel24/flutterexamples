@@ -29,6 +29,7 @@ class MenuPage extends StatelessWidget {
             ),
             _CustomButton(text: 'Animations', onPressed: () => _openPage(context, AnimationsPage())),
             _CustomButton(text: 'Lista de tareas', onPressed: () => _openPage(context, ListaTareasPage())),
+            // _CustomButton(text: 'Material Admin Pro', onPressed: () => _openPage(context, ListaTareasPage())),
           ],
         ),
       )),
