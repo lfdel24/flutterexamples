@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutterexamples/admin_pro/material_admin_pro_page.dart';
+import 'package:flutterexamples/layouts/layouts.dart';
 import 'package:flutterexamples/menu_page.dart';
 
 void main() {
@@ -15,8 +16,8 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      // home: MenuPage(),
-      home: AdminProPage(),
+      home: MenuPage(),
+      // home: AdminProPage(),
     );
   }
 }
